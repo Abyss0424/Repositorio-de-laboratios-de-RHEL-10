@@ -1,0 +1,92 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Comandos usados practica 1~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+sudo dnf update --------- Comanddo utilizado para actualizar la información de los repositorios y sincronizar la lista de paquetes disponibles en el sistema.
+sudo dnf upgrade ----------- Comanddo utilizado para actualizar los paquetes ya instalados a sus versiones más recientes, aplicando los cambios disponibles.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Comandos usados practica 2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+nmcli device status ----------- Comando utilizado para mostrar las interfaces disponibles y su estado.
+
+-----------Para configurar la red por DHCP-----------
+
+nmcli con modify enp1s0 ipv4.method auto
+nmcli con up enp1s0
+
+-----------Para configurar una IP estática-----------
+
+nmcli con modify enp1s0 \
+ipv4.method manual \
+ipv4.addresses 192.168.1.50/24 \
+ipv4.gateway 192.168.1.1
+nmcli con up enp1s0
+
+
+-----------Configurar los DNS de Google-----------
+
+nmcli con modify enp1s0 ipv4.dns "8.8.8.8 8.8.4.4"
+nmcli con up enp1s0
+
+
+-----------Para verificar la configuración-----------
+
+ip addr show enp1s0
+ip route
+nmcli con show enp1s0
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Comandos usados practica 3~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------Para crear un usuario con mi nombre-----------
+
+sudo useradd julio
+sudo passwd julio
+
+-----------Para agregar el usuario al grupo sudoers (wheel para RHEL)-----------
+
+sudo usermod -aG sudo julio
+
+-----------Para crear un grupo llamado guest-----------
+
+sudo groupadd guest
+
+
+-----------Para crear un usuario y agregarlo al grupo guest-----------
+
+sudo useradd invitado
+sudo passwd invitado
+sudo usermod -aG guest invitado
+
+-----------Para verificar usuarios y grupos-----------
+
+id julio
+id invitado
+
+-----------Para eliminar el usuario y el grupo creados-----------
+
+sudo userdel -r invitado
+sudo groupdel guest
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Comandos usados practica 4~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------Para crear la carpeta y el archivo-----------
+
+mkdir materia
+cd materia
+vi estudiante.txt
+
+-----------Para asignar permisos solo al usuario propietario-----------
+
+chmod 700 estudiante.txt
+
+-----------Para asignar permisos solo al grupo propietario-----------
+
+chmod 070 estudiante.txt
+
+-----------Para crear una nueva carpeta y copiar el archivo-----------
+
+cd ..
+mkdir materia2
+cp materia/estudiante.txt materia2/
+
+-----------Para eliminar la carpeta junto con su contenido-----------
+
+rm -r materia
