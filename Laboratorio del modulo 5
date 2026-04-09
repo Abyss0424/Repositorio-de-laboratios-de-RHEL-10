@@ -1,0 +1,105 @@
+Comandos usados practica 1
+
+mkdir (nombre de la carpeta)
+cd (carpeta)
+touch sync{001..100}.txt
+ls
+*EN EL SERVIDOR REMOTO*
+cd Desktop
+mkdir carpeta
+cd carpeta ls
+*EN EL NODO PRINCIPAL*
+cd ..
+rsync -avz /home/amoises/Desktop/carpeta (ip del servidor remoto)/:home/amoises/Desktop/carpetaDestino
+nano (nombre script).sh
+#!/bin/bash
+(comando usado en la sincronizacion)
+guardamos y salimos
+chmod +x nombrescript.sh
+crontab -e
+* * * * * /home/amoises/Desktop/nombrescript.sh
+:wq!
+cd carpeta creada al inicio
+touch pruebaFinal.txt
+crear el par de llaves ssh
+esperar un minuto
+
+============================================
+
+Comandos usados practica 2
+
+En ambos nodos:
+sudo /etc/hosts
+ipNodo1 nodo1.cluster.lan nodo1
+ipNodo2 nodo2.cluster.lan nodo2
+sudo dnf repolist --all
+sudo subscription-manager repos --enable rhel-10-for-x86_64-highavailability-rpms
+sudo dnf install pacemaker corosync pcs -y
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+sudo passwd hacluster
+sudo systemctl start pcsd
+
+En el nodo 1:
+sudo pcs host auth nodo1 nodo2
+sudo pcs cluster setup pollosAmarillos nodo1 nodo1 --start --enable
+sudo pcs property set stonith-enabled=false
+sudo pcs property set no-quorum-policy=ignore
+sudo pcs resource create VIP_pollitos ocf:heartbeat:IPaddr2 ip= IpFlotanteQueElijas op monitor interval=5s
+sudo pcs status
+
+En el host:
+ping IpFlotante
+
+*apagamos/reiniciamos el nodo sobre el cual la ip esta corriendo
+
+============================================
+
+Comandos usados practica 3
+
+sudo dnf install httpd -y
+sudo nano /var/www/html/index.html (en ambos nodos, maestro y respaldo)
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Simple</title>
+</head>
+<body>
+    <h1>Anthony Moises</h1>
+    <p>2025-1335</p>
+</</body>
+
+
+sudo systemctl start httpd
+sudo systemctl enable httpd
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+*en el navegador poner las ip de ambos nodos
+sudo dnf install keepalived -y (ambos nodos)
+sudo nano /etc/keepalived/keepalived.conf (nodo 1)
+
+#Configuracion para keepalived
+
+global_defs {
+   router_id NODO1
+}
+
+vrrp_instance VI_1 {
+    state MASTER
+    interface enp1s0
+    virtual_router_id 51
+    priority 100
+    advert_int 1
+    
+    virtual_ipaddress {
+        192.168.1.100/24
+    }
+}
+
+configuramos el nodo 2 como backup (prioridad 50 y state BACKUP)
+*iniciar keepalived
+* hacer ping a la IP flotante y ponerla en el navegador
