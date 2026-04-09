@@ -28,7 +28,7 @@ sudo su
 dnf install postfix* mailx cyrus-sasl cyrus-sasl-plain -y
 systemctl enable --now postfix
 nano /etc/postfix/main.cf
-myhostname = antho.redhat.com
+myhostname = julio.redhat.com
 mydomain = redhat.com
 myorigin = $myhostname
 inet_interfaces = all
