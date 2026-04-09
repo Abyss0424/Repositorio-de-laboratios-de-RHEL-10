@@ -1,0 +1,42 @@
+Comandos usados practica 1
+
+sudo nano /etc/default/grub
+init=/bin/bash
+mout -o remount,rw /
+passwd root
+touch /.autorelabel
+exec /sbin/init
+
+
+Comandos usados practica 2
+
+sudo nano cp_home.sh
+date +"%d-%m-%y:$H:$M"
+tar -cvfz /home/$(whoami)/cp_home_$FECHA.tar.gz /home/$(whoami)
+echo""
+cho mod +x 
+
+sudo nano ifconf.sh
+read -p "" nombre
+ifconfif > /home/$(whoami)/Desktop/"$nombre".txt
+echo ""
+chmod +x
+
+
+
+
+
+
+Comandos usados practica 3
+
+ping
+sudo systemctl status sshd
+ssh user@ip
+exit
+ssh-keygen
+notepad direccionDelaLlavePublica
+mk dir .ssh
+cd .ssh
+sudo nano authorized_keys
+LlavePublica
+ssh user@ip
