@@ -69,8 +69,8 @@ sudo nano /var/www/html/index.html (en ambos nodos, maestro y respaldo)
     <title>Página Simple</title>
 </head>
 <body>
-    <h1>Anthony Moises</h1>
-    <p>2025-1335</p>
+    <h1>Julio Pujols</h1>
+    <p>2025-0692</p>
 </</body>
 
 
