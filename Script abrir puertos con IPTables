@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Comprobar si el usuario es root
+if [[ $EUID -ne 0 ]]; then
+   echo "Este script debe ejecutarse como root (sudo)." 
+   exit 1
+fi
+
+echo "--- Gestor de Bloqueo de Puertos ---"
+echo "1) Puerto 22 (SSH)"
+echo "2) Puerto 80 (HTTP)"
+echo "3) Puerto 21 (FTP)"
+echo "------------------------------------"
+read -p "Seleccione el número del puerto que desea apagar: " opcion
+
+# Validar la opción y asignar el número de puerto
+case $opcion in
+    1) puerto=22 ;;
+    2) puerto=80 ;;
+    3) puerto=21 ;;
+    *) echo "Opción no válida."; exit 1 ;;
+esac
+
+echo "Ha seleccionado el puerto: $puerto"
+read -p "¿Está seguro de que desea bloquear el tráfico en el puerto $puerto? (s/n): " confirmar
+
+if [[ $confirmar == "s" || $confirmar == "S" ]]; then
+    # Aplicar la regla de iptables
+    # -A INPUT: Añadir a la cadena de entrada
+    # -p tcp: Protocolo TCP
+    # --dport: Puerto de destino
+    # -j DROP: Denegar el paquete sin avisar
+    iptables -A INPUT -p tcp --dport $puerto -j DROP
+    
+    echo "El puerto $puerto ha sido bloqueado exitosamente."
+else
+    echo "Operación cancelada."
+fi
